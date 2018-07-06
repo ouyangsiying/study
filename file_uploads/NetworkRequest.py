@@ -11,6 +11,7 @@ class NetworkRequest():
         self.cookies = {}
         self.headers = {'Accept': 'application/json', 'Content-Type': 'application/x-www-form-urlencoded'}
         self.token = ''
+        self.r = requests.session()
 
     def getNowToken(self):
         return self.token
@@ -23,24 +24,24 @@ class NetworkRequest():
         return token
 
     def get(self,url,params={}):
-        req = requests.get(self.baseUrl+url,params=params,headers = self.headers,cookies = self.cookies)
+        req = self.r.get(self.baseUrl+url,params=params,headers = self.headers,cookies = self.cookies)
         return req
 
     def post(self,url,params={}):
-        req = requests.post(self.baseUrl+url,params=params,headers = self.headers,cookies = self.cookies)
+        req = self.r.post(self.baseUrl+url,params=params,headers = self.headers,cookies = self.cookies)
         return req
 
     def post2(self, url, params={},m=""):
         headers = {'Accept': 'application/json', 'Content-Type': m}
-        req = requests.post(self.baseUrl + url, data=params, headers=headers, cookies=self.cookies)
+        req = self.r.post(self.baseUrl + url, data=params, headers=headers, cookies=self.cookies)
         return req
 
     def delete(self,url,params={}):
-        req = requests.delete(self.baseUrl+url,params=params,headers = self.headers,cookies = self.cookies)
+        req = self.r.delete(self.baseUrl+url,params=params,headers = self.headers,cookies = self.cookies)
         return req
 
     def put(self,url,params={}):
-        req = requests.put(self.baseUrl+url,params=params,headers = self.headers,cookies = self.cookies)
+        req = self.r.put(self.baseUrl+url,params=params,headers = self.headers,cookies = self.cookies)
         return req
 
 #登录
@@ -65,4 +66,3 @@ class NetworkRequest():
 #退出
     def logout(self):
         self.post("/auth/logout", {})
-
