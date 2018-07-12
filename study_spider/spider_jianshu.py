@@ -2,6 +2,7 @@ from urllib import request
 from bs4 import BeautifulSoup
 
 
+#抓取文字信息
 class spider:
     def __init__(self):
         self.url = r"http://www.jianshu.com"
