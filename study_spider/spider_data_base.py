@@ -18,21 +18,19 @@ class spider:
         self.connction = pymysql.connect(**self.db_config)
 
     def spider_data_base(self):
-       page = request.Request(self.url,headers = self.header)
-       page_info = request.urlopen(page).read().decode("utf-8")
-       soup = BeautifulSoup(page_info,'html.parser')
-       urls = soup.find_all('a','title')
-       print(urls)
-       try:
-           with self.connction.cursor as cursor :
-               sql = 'insert into titles(title,url) value (%s,%s)'
-               for u in urls:
-                   cursor.execute(sql,(u.string, r'http://www.jianshu.com'+u.attrs['href']))
+        page = request.Request(self.url, headers=self.header)
+        page_info = request.urlopen(page).read().decode("utf-8")
+        soup = BeautifulSoup(page_info, 'html.parser')
+        urls = soup.find_all('a', 'title')
+        print(urls)
+        try:
+            with self.connction.cursor() as cursor:
+                sql = 'insert into titles(title,url) value (%s,%s)'
+                for u in urls:
+                    cursor.execute(sql, (u.string, r'http://www.jianshu.com' + u.attrs['href']))
             self.connction.commit()
-       finally:
-           self.connction.close()
-
-
+        finally:
+            self.connction.close()
 
 
 spider().spider_data_base()
