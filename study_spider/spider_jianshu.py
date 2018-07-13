@@ -11,6 +11,7 @@ class spider:
     def spider_jianshu(self):
         page = request.Request(self.url, headers=self.header)
         page_info = request.urlopen(page).read().decode("utf-8")
+        print(page_info)
         soup = BeautifulSoup(page_info, 'html.parser')
         titles = soup.find_all('a', 'title')
         try:
